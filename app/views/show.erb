@@ -6,4 +6,8 @@
 <p><%= @meetup.description %></p>
 
 
-
+<h3>
+  <form action="/<%= @meetup.id %>" method="post">
+    <input type="submit" value="Join this Meetup" />
+  </form>
+</h3>

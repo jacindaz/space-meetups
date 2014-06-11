@@ -36,6 +36,17 @@ get '/' do
   erb :index
 end
 
+post '/:id' do
+  @meetup_id = params[:id]
+  #binding.pry
+  @current_meetup = Meetup.find(@meetup_id)
+  @add_member = Member.create(meetup_id: @meetup_id, user_id: current_user.id)
+  #binding.pry
+  flash[:notice] = "You have now joined #{@current_meetup.name}!"
+  redirect "/#{@meetup_id}"
+end
+
+
 get '/:id' do
   meetup_id = params[:id]
   @meetup = Meetup.find(meetup_id)
@@ -50,24 +61,6 @@ post '/meetup/new' do
   @create_meetup = Meetup.create(name: params[:meetup_name], location: params[:location], description: params[:description])
   redirect "/#{@create_meetup.id}"
 end
-
-get '/meetup/join' do
-  @meetups = Meetup.order('name ASC').all
-  erb :join
-end
-
-post '/meetup/join/:id' do
-  @meetup_id = params[:id]
-
-  @current_meetup = Meetup.find(@meetup_id)
-  @add_member = Member.create(meetup_id: @meetup_id, user_id: current_user.id)
-  binding.pry
-  redirect '/'
-end
-
-# get '/meetup/join/:id' do
-#   erb :joined
-# end
 
 
 get '/auth/github/callback' do
