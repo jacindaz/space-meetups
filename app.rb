@@ -51,11 +51,30 @@ post '/meetup/new' do
   redirect "/#{@create_meetup.id}"
 end
 
+get '/meetup/join' do
+  @meetups = Meetup.order('name ASC').all
+  erb :join
+end
+
+post '/meetup/join/:id' do
+  @meetup_id = params[:id]
+
+  @current_meetup = Meetup.find(@meetup_id)
+  @add_member = Member.create(meetup_id: @meetup_id, user_id: current_user.id)
+  binding.pry
+  redirect '/'
+end
+
+# get '/meetup/join/:id' do
+#   erb :joined
+# end
+
 
 get '/auth/github/callback' do
   auth = env['omniauth.auth']
 
   user = User.find_or_create_from_omniauth(auth)
+  #member = Member.create(user_id: , meetup_id: )
   set_current_user(user)
   flash[:notice] = "You're now signed in as #{user.username}!"
 
