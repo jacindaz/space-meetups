@@ -30,6 +30,7 @@ def authenticate!
 end
 
 get '/' do
+  @meetups = Meetup.all
   erb :index
 end
 
