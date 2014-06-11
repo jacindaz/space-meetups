@@ -42,6 +42,15 @@ get '/:id' do
   erb :show
 end
 
+get '/meetup/new' do
+  erb :create
+end
+
+post '/meetup/new' do
+  @create_meetup = Meetup.create(name: params[:meetup_name], location: params[:location], description: params[:description])
+  redirect "/#{@create_meetup.id}"
+end
+
 
 get '/auth/github/callback' do
   auth = env['omniauth.auth']
