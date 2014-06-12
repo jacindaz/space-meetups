@@ -38,7 +38,6 @@ end
 
 post '/:id' do
   @meetup_id = params[:id]
-  #binding.pry
   @current_meetup = Meetup.find(@meetup_id)
   @add_member = Member.create(meetup_id: @meetup_id, user_id: current_user.id)
 
@@ -67,9 +66,19 @@ get '/:id' do
     end
   end
 
-  # @members_id = Member.find(meetup_id: @meetup_id)
-  # @users = Users.find(@members_id)
   erb :show
+end
+
+post '/leave_meetup/:id' do
+  @meetup_id = params[:id]
+  @current_meetup = Meetup.find(@meetup_id)
+  @remove_member = Member.find_by_user_id_and_meetup_id(current_user.id, @meetup_id)
+  Member.destroy(@remove_member.id)
+
+  #@remove_member = Member.where(meetup_id: @meetup_id).destroy(meetup_id: @meetup_id, user_id: current_user.id)
+
+  flash[:notice] = "Sorry to see you go! You have now left #{@current_meetup.name}."
+  redirect "/#{@meetup_id}"
 end
 
 get '/meetup/new' do

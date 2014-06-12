@@ -5,12 +5,12 @@
 <h3><%= @meetup.location %></h3>
 <p><%= @meetup.description %></p>
 
+<br><br>
 
-<h3>
-  <form action="/<%= @meetup.id %>" method="post">
-    <input type="submit" value="Join this Meetup" />
-  </form>
-</h3>
+<form action="/<%= @meetup.id %>" method="post">
+  <input type="submit" value="Join this Meetup" />
+</form>
+
 
 <br><br>
 
@@ -25,3 +25,9 @@
     </div>
   <% end %>
 <% end %>
+
+<br><br>
+
+<form action="/leave_meetup/<%= @meetup.id %>" method="post">
+  <input type="submit" value="Leave this Meetup" />
+</form>
