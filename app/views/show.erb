@@ -15,10 +15,13 @@
 <br><br>
 
 <h2>Members of <%= @meetup.name %></h2>
+<% if @members.empty? == true %>
+  <p>There are no members in this meetup.</p>
+<% else %>
+  <% @members.each do |member| %>
 
-<% @members.each do |member| %>
-  <div class="members">
-    <img src="<%= member.avatar_url %>" class="avatar"><%= member.username %>
-  </div>
+    <div class="members">
+      <img src="<%= member.avatar_url %>" class="avatar"><%= member.username %>
+    </div>
+  <% end %>
 <% end %>
-
