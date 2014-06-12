@@ -30,7 +30,9 @@ def authenticate!
 end
 
 get '/' do
-  @meetups = Meetup.order('name ASC').all
+  @meetups = Meetup.all.order(:name)
+  #@meetups = Meetup.find(:all, :order => "LOWER(name)")
+  #@meetups = Meetup.where("lower(name) = ?", name.downcase).order("name ASC")
   #@meetups = Meetup.find(:all, :order => "name DESC")
   #@meetups_alpha = @meetups.sort! { |a,b| a.name <=> b.name }
   erb :index
