@@ -5,6 +5,6 @@ class Member < ActiveRecord::Base
 
   validates_uniqueness_of :user_id, scope: :meetup_id, :message => "You are already a member!"
 
-  belongs_to :meetups
+  belongs_to :meetup
   belongs_to :user
 end

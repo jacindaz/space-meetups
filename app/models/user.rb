@@ -16,5 +16,6 @@ class User < ActiveRecord::Base
     )
   end
 
+  has_many :members
   has_many :meetups, through: :members, inverse_of: :members
 end

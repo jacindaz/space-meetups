@@ -30,7 +30,8 @@ def authenticate!
 end
 
 get '/' do
-  @meetups = Meetup.all.order(:name)
+  #@meetups = Meetup.all.order(:name)
+  @meetups = Meetup.order("lower(name)")
   #@meetups = Meetup.find(:all, :order => "LOWER(name)")
   #@meetups = Meetup.where("lower(name) = ?", name.downcase).order("name ASC")
   #@meetups = Meetup.find(:all, :order => "name DESC")
@@ -40,11 +41,17 @@ end
 
 post '/:id' do
   @meetup_id = params[:id]
-  @current_meetup = Meetup.find(@meetup_id)
-  @add_member = Member.create(meetup_id: @meetup_id, user_id: current_user.id)
+  @meetup = Meetup.find(@meetup_id)
+  @members = @meetup.users
+  @add_member = Member.new(meetup_id: @meetup_id, user_id: current_user.id)
 
-  flash[:notice] = "You have now joined #{@current_meetup.name}!"
-  redirect "/#{@meetup_id}"
+  if @add_member.save
+    flash[:notice] = "You have now joined #{@meetup.name}!"
+    redirect "/#{@meetup_id}"
+  else
+    flash[:notice] = "You are already a member of the #{@meetup.name}."
+    erb :show
+  end
 end
 
 
