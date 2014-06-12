@@ -51,7 +51,7 @@ get '/:id' do
   @meetup = Meetup.find(meetup_id)
 
   @user_ids = []
-  (Member.all).each do |one_member|
+  Member.find_each(batch_size: 10) do |one_member|
     if one_member.meetup_id.to_s == meetup_id
       @user_ids << one_member.user_id.to_s
     end
