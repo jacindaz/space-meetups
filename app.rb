@@ -41,7 +41,7 @@ post '/:id' do
   #binding.pry
   @current_meetup = Meetup.find(@meetup_id)
   @add_member = Member.create(meetup_id: @meetup_id, user_id: current_user.id)
-  #binding.pry
+
   flash[:notice] = "You have now joined #{@current_meetup.name}!"
   redirect "/#{@meetup_id}"
 end
@@ -50,6 +50,25 @@ end
 get '/:id' do
   meetup_id = params[:id]
   @meetup = Meetup.find(meetup_id)
+
+  @user_ids = []
+  (Member.all).each do |one_member|
+    if one_member.meetup_id.to_s == meetup_id
+      @user_ids << one_member.user_id.to_s
+    end
+  end
+
+  @members = []
+  @user_ids.each do |id|
+    (User.all).each do |user|
+      if id == user.id.to_s
+        @members << user
+      end
+    end
+  end
+
+  # @members_id = Member.find(meetup_id: @meetup_id)
+  # @users = Users.find(@members_id)
   erb :show
 end
 
@@ -58,7 +77,8 @@ get '/meetup/new' do
 end
 
 post '/meetup/new' do
-  @create_meetup = Meetup.create(name: params[:meetup_name], location: params[:location], description: params[:description])
+  @create_meetup = Meetup.create(name: params[:meetup_name], location: params[:location],
+                                  description: params[:description])
   redirect "/#{@create_meetup.id}"
 end
 

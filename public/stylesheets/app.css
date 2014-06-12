@@ -42,3 +42,16 @@ a:visited {
 input {
   color: black;
 }
+
+.members {
+  height: 50px;
+  padding:5px;
+  vertical-align: center;
+}
+
+.avatar {
+  width: 30px;
+  padding-right:10px;
+}
+
+

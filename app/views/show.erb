@@ -11,3 +11,14 @@
     <input type="submit" value="Join this Meetup" />
   </form>
 </h3>
+
+<br><br>
+
+<h2>Members of <%= @meetup.name %></h2>
+
+<% @members.each do |member| %>
+  <div class="members">
+    <img src="<%= member.avatar_url %>" class="avatar"><%= member.username %>
+  </div>
+<% end %>
+
